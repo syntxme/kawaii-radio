@@ -21,7 +21,8 @@ CERT="${CERT:-/etc/ssl/kawaii/cert.pem}"
 KEY="${KEY:-/etc/ssl/kawaii/key.pem}"
 APP_DIR="/opt/kawaii-radio-site"
 SERVICE="kawaii-radio-site"
-SITE="/etc/nginx/sites-available/radio_kawaii"
+SITE="/etc/nginx/sites-available/kawaii-radio"
+OLD_SITE="radio_kawaii"   # eski deploy.sh shu nom bilan yozgan: ikki sozlama ziddiyatga tushmasligi uchun o'chiriladi
 
 say() { printf '\033[1;35m▸ %s\033[0m\n' "$*"; }
 ok()  { printf '\033[1;32m✓ %s\033[0m\n' "$*"; }
@@ -96,7 +97,7 @@ if [ -f "$SITE" ]; then
   say "Eski nginx sozlamasi saqlandi: $BACKUP"
 fi
 cat > "$SITE" <<'NGINX'
-# /etc/nginx/sites-available/radio_kawaii — Kawaii Radio (site/deploy.sh yozgan, qo'lda o'zgartirmang)
+# /etc/nginx/sites-available/kawaii-radio — Kawaii Radio (site/deploy.sh yozgan, qo'lda o'zgartirmang)
 #   "/" va "/site/*"  → Kawaii Radio sahifasi (Rust servis, 127.0.0.1:__PORT__)
 #   qolgan hammasi    → Cloudflare Worker (musiqa, chat, ilova yangilanishlari, Kawaii ID)
 
@@ -158,15 +159,22 @@ server {
 }
 NGINX
 sed -i -e "s|__DOMAIN__|$DOMAIN|g" -e "s|__PORT__|$PORT|g" -e "s|__CERT__|$CERT|g" -e "s|__KEY__|$KEY|g" -e "s|__WORKER__|$WORKER|g" "$SITE"
-ln -sf "$SITE" /etc/nginx/sites-enabled/radio_kawaii
+ln -sf "$SITE" /etc/nginx/sites-enabled/kawaii-radio
+OLD_LINK=""
+if [ -L "/etc/nginx/sites-enabled/$OLD_SITE" ]; then
+  OLD_LINK="$(readlink "/etc/nginx/sites-enabled/$OLD_SITE")"
+  rm -f "/etc/nginx/sites-enabled/$OLD_SITE"
+fi
 
 if ! nginx -t 2>/tmp/kawaii-radio-nginx.log; then
   cat /tmp/kawaii-radio-nginx.log >&2
-  if [ -n "$BACKUP" ]; then cp -a "$BACKUP" "$SITE"; else rm -f "$SITE" /etc/nginx/sites-enabled/radio_kawaii; fi
+  if [ -n "$BACKUP" ]; then cp -a "$BACKUP" "$SITE"; else rm -f "$SITE" /etc/nginx/sites-enabled/kawaii-radio; fi
+  [ -n "$OLD_LINK" ] && ln -sf "$OLD_LINK" "/etc/nginx/sites-enabled/$OLD_SITE"
   nginx -t >/dev/null 2>&1 || true
   die "nginx sozlamasida xato: eski sozlama qaytarildi, hech narsa o'zgarmadi"
 fi
 systemctl reload nginx
+rm -f "/etc/nginx/sites-available/$OLD_SITE"
 ok "nginx yangilandi"
 
 # ── 5. check through nginx (this server, the real domain name)

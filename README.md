@@ -18,7 +18,7 @@ Skript o'zi:
 
 1. Rust bo'lmasa o'rnatadi va servisni yig'adi (`cargo build --release`, birinchi marta bir necha daqiqa)
 2. `kawaii-radio-site` systemd servisini ishga tushiradi (`127.0.0.1:8095`)
-3. `/etc/nginx/sites-available/radio_kawaii` ni yangilaydi (eski fayl `.bak-<sana>` bo'lib saqlanadi),
+3. `/etc/nginx/sites-available/kawaii-radio` ni yangilaydi (eski fayl `.bak-<sana>` bo'lib saqlanadi),
    `nginx -t` xato bersa eskisini qaytaradi
 4. Oxirida tekshiradi: sahifa ham, Worker proxy ham (`/playlist.json`) javob berishi kerak
 
