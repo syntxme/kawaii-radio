@@ -1,0 +1,189 @@
+/* Kawaii Radio KR-01: chalk plastic by day, graphite by night (the app's Chalk / Graphite palettes). */
+:root {
+  --page: #DFE1E6; --base: #EBECEF; --base2: #EFF1F5; --raised: #FAFAFC; --tray: #E3E5EA;
+  --ink: #374151; --soft: #6B7280; --ctl: #4B5563;
+  --spec: #FFFFFF; --shade: #B8BDCB; --shade-soft: rgba(184,189,203,.55); --groove: #D5D8DF;
+  --lcdA: #CFD8AA; --lcdB: #AAB68A; --lcdInk: #262E1E; --lcdGhost: rgba(38,46,30,.12); --lcdBorder: #3A4131;
+  --panelTop: #2C2E33; --panelMid: #232428; --panelBottom: #1F2023;
+  --onair: #FF4D5E; --led: #22C55E; --gold: #F5B93B;
+  --glow: 168,140,255;
+  --dot: rgba(55,65,81,.07);
+  --pixel: 'Pixelify Sans', ui-monospace, monospace;
+  --micro: 'Silkscreen', 'Pixelify Sans', monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #0E0F11; --base: #1A1C20; --base2: #1F2125; --raised: #2B2E34; --tray: #15171A;
+    --ink: #E6E8EC; --soft: #9198A3; --ctl: #D3D7DE;
+    --spec: rgba(255,255,255,.08); --shade: #040506; --shade-soft: rgba(0,0,0,.55); --groove: #0C0D0F;
+    --lcdA: #B9C68E; --lcdB: #8B9866; --lcdInk: #1E2517; --lcdGhost: rgba(30,37,23,.14); --lcdBorder: #2B3124;
+    --panelTop: #1C1D21; --panelMid: #16171A; --panelBottom: #121315;
+    --dot: rgba(230,232,236,.04);
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh; color: var(--ink); font-family: var(--pixel);
+  background: var(--page);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1.2px);
+  background-size: 14px 14px;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
+
+.page {
+  max-width: 1040px; margin: 0 auto; padding: max(20px, env(safe-area-inset-top)) 16px 24px;
+  display: grid; gap: 22px; grid-template-columns: 1fr; align-items: start;
+}
+@media (min-width: 900px) {
+  .page { grid-template-columns: 440px 1fr; padding-top: 56px; gap: 32px; }
+}
+
+/* ── surfaces (the app's raised / tray / LCD) */
+.device, .tray, .tile {
+  border-radius: 28px;
+}
+.device {
+  background: linear-gradient(180deg, var(--base2), var(--base));
+  box-shadow: 0 1px 0 var(--spec) inset, 0 18px 40px -18px var(--shade), 0 2px 6px var(--shade-soft);
+  padding: 10px; width: 100%; max-width: 440px; justify-self: center;
+}
+.tray {
+  background: var(--tray);
+  box-shadow: inset 0 2px 6px var(--shade), inset 0 -1px 0 var(--spec), 0 1px 0 var(--spec);
+}
+.key {
+  background: linear-gradient(180deg, var(--raised), var(--base2));
+  box-shadow: 0 1px 0 var(--spec) inset, 0 6px 14px -6px var(--shade), 0 1px 2px var(--shade-soft);
+  transition: transform .12s ease, box-shadow .12s ease;
+  text-decoration: none;
+}
+.key:active, .key.down {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 5px var(--shade), 0 0 0 var(--shade);
+}
+
+/* ── top panel: dark, with the cover and the station keys */
+.panel {
+  border-radius: 22px; padding: 14px 14px 12px;
+  background: linear-gradient(180deg, var(--panelTop), var(--panelMid) 60%, var(--panelBottom));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), inset 0 -2px 6px rgba(0,0,0,.5);
+  color: #E6E8EC;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.logo {
+  width: 30px; height: 36px; flex: none; background: #E6E8EC;
+  -webkit-mask: url(/site/logo.svg) center / contain no-repeat; mask: url(/site/logo.svg) center / contain no-repeat;
+}
+.brand-text { display: grid; line-height: 1.05; flex: 1; min-width: 0; }
+.brand-text b { font-family: var(--micro); font-weight: 400; font-size: 15px; letter-spacing: .08em; }
+.brand-text small { font-family: var(--micro); font-size: 9px; letter-spacing: .12em; color: #8E949E; }
+.onair {
+  font-family: var(--micro); font-size: 10px; letter-spacing: .12em; color: #8E949E;
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; border-radius: 10px;
+  background: #15161A; box-shadow: inset 0 1px 3px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.05);
+}
+.onair i { width: 8px; height: 8px; border-radius: 50%; background: #5A2026; }
+.onair.live { color: #F3D3D7; }
+.onair.live i { background: var(--onair); box-shadow: 0 0 8px var(--onair); animation: blink 1.6s steps(2, start) infinite; }
+@keyframes blink { 50% { opacity: .35; } }
+
+.emblem-well {
+  margin: 14px auto 12px; width: min(220px, 60vw); aspect-ratio: 1; border-radius: 22px; display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 45%, rgba(var(--glow), .35), transparent 62%), #121316;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.05);
+}
+.emblem {
+  width: 46%; aspect-ratio: 94 / 112; background: #E6E8EC;
+  -webkit-mask: url(/site/logo.svg) center / contain no-repeat; mask: url(/site/logo.svg) center / contain no-repeat;
+  animation: breathe 4s ease-in-out infinite;
+}
+@keyframes breathe { 50% { transform: translateY(-3px); opacity: .92; } }
+
+.stations {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 5px; border-radius: 16px;
+  background: #121316; box-shadow: inset 0 2px 5px rgba(0,0,0,.85), 0 1px 0 rgba(255,255,255,.05);
+}
+.st {
+  font-family: var(--micro); font-size: 11px; letter-spacing: .1em; color: #8E949E;
+  height: 36px; border-radius: 11px;
+}
+.st.on {
+  color: #F2F3F5;
+  background: linear-gradient(180deg, #3A3D44, #2C2F35);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 3px 8px rgba(0,0,0,.6);
+}
+.st:focus-visible, .key:focus-visible { outline: 2px solid var(--led); outline-offset: 2px; }
+
+/* ── the LCD */
+.body { padding: 12px 6px 8px; }
+.lcd {
+  position: relative; border-radius: 16px; padding: 12px 14px 11px; color: var(--lcdInk);
+  border: 3px solid var(--lcdBorder);
+  background:
+    linear-gradient(rgba(38,46,30,.05) 1px, transparent 1px) 0 0 / 100% 4px,
+    linear-gradient(90deg, rgba(38,46,30,.05) 1px, transparent 1px) 0 0 / 4px 100%,
+    linear-gradient(180deg, var(--lcdA), var(--lcdB));
+  box-shadow: inset 0 2px 8px rgba(0,0,0,.25), 0 1px 0 var(--spec);
+  text-shadow: 1px 1px 0 rgba(38,46,30,.18);
+}
+.lcd-top { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; letter-spacing: .06em; opacity: .7; }
+.lcd-title {
+  margin-top: 6px; font-size: 24px; line-height: 1.1; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.lcd-artist { font-size: 15px; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar { display: grid; grid-template-columns: repeat(28, 1fr); gap: 2px; height: 9px; margin: 10px 0 7px; }
+.bar i { background: var(--lcdGhost); }
+.bar i.on { background: var(--lcdInk); }
+.lcd-next { font-size: 11px; letter-spacing: .05em; opacity: .6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── the app */
+.side { display: grid; gap: 16px; align-content: start; }
+.get { padding: 22px 20px 20px; }
+.get-head { display: flex; justify-content: space-between; align-items: center; }
+.badge {
+  font-family: var(--micro); font-size: 10px; letter-spacing: .12em; color: var(--soft);
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.badge i { width: 8px; height: 8px; border-radius: 50%; background: var(--led); box-shadow: 0 0 6px var(--led); }
+.ver { font-family: var(--micro); font-size: 10px; letter-spacing: .1em; color: var(--soft); }
+h1 { font-size: clamp(30px, 6vw, 44px); line-height: 1; margin: 14px 0 10px; font-weight: 600; letter-spacing: -.01em; }
+h1 span { color: var(--soft); font-weight: 500; }
+.get p { margin: 0 0 18px; font-size: 16px; line-height: 1.35; color: var(--soft); max-width: 46ch; }
+
+.big {
+  display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: 20px; color: var(--ink);
+}
+.big .px { width: 22px; color: var(--ctl); flex: none; }
+.big-text { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.big-text b { font-family: var(--micro); font-weight: 400; font-size: 14px; letter-spacing: .08em; }
+.big-text small { font-size: 13px; color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.arrow { font-size: 26px; color: var(--ctl); line-height: 1; }
+.alt { display: inline-block; margin-top: 12px; font-size: 14px; color: var(--soft); text-underline-offset: 3px; }
+.note { margin: 10px 0 0 !important; font-size: 13px !important; }
+.note:empty { display: none; }
+
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tile {
+  padding: 16px; border-radius: 20px; display: grid; gap: 6px; align-content: start;
+  background: linear-gradient(180deg, var(--base2), var(--base));
+  box-shadow: 0 1px 0 var(--spec) inset, 0 8px 18px -12px var(--shade), 0 1px 2px var(--shade-soft);
+}
+.tile .px { width: 20px; color: var(--ctl); margin-bottom: 4px; }
+.tile b { font-family: var(--micro); font-weight: 400; font-size: 12px; letter-spacing: .08em; }
+.tile small { font-size: 13px; line-height: 1.3; color: var(--soft); }
+
+.px svg { display: block; width: 100%; height: auto; shape-rendering: crispEdges; }
+
+footer {
+  text-align: center; padding: 8px 16px max(28px, env(safe-area-inset-bottom));
+  font-family: var(--micro); font-size: 10px; letter-spacing: .2em; color: var(--soft); opacity: .7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

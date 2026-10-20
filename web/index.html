@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kawaii Radio · KR-01</title>
+<meta name="description" content="Kawaii Radio: J-Pop, OST va Riot Music jonli efirda. Android ilovasi, chat va Kawaii ID.">
+<meta name="theme-color" content="#DFE1E6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E0F11" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kawaii Radio · KR-01">
+<meta property="og:description" content="J-Pop, OST va Riot Music: kecha-kunduz jonli efir. Android ilovasi.">
+<meta property="og:image" content="{{PUBLIC}}/files/covers/default.webp">
+<meta property="og:url" content="{{PUBLIC}}/">
+<link rel="icon" href="/site/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site/app.css">
+</head>
+<body>
+<main class="page">
+
+  <!-- the radio, as a showcase: dark top panel, the LCD, the station keys -->
+  <section class="device" aria-label="Kawaii Radio">
+    <header class="panel">
+      <div class="brand">
+        <span class="logo" aria-hidden="true"></span>
+        <div class="brand-text"><b>KAWAII RADIO</b><small>KR-01 · RADIO.KAWAII.UZ</small></div>
+        <span class="onair live"><i></i>24/7</span>
+      </div>
+      <div class="emblem-well" aria-hidden="true"><span class="emblem"></span></div>
+      <nav class="stations" aria-label="Stansiyalar">
+        <button class="st on" data-st="jpop" aria-pressed="true">J-POP</button>
+        <button class="st" data-st="ost" aria-pressed="false">OST</button>
+        <button class="st" data-st="riot" aria-pressed="false">RIOT</button>
+      </nav>
+    </header>
+
+    <div class="body">
+      <div class="lcd" aria-live="polite">
+        <div class="lcd-top"><span>KAWAII RADIO · EFIR</span><span id="freq">J-POP FM</span></div>
+        <div class="lcd-title" id="title">J-Pop</div>
+        <div class="lcd-artist" id="desc">Yaponcha qo'shiqlar, anime opening va endinglari</div>
+        <div class="bar" id="bar" aria-hidden="true"></div>
+        <div class="lcd-next">HAMMA BIR VAQTDA BIR XIL QO'SHIQNI ESHITADI</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- the app: open it (or get it) -->
+  <section class="side">
+    <div class="tray get">
+      <div class="get-head">
+        <span class="badge"><i></i>ANDROID</span>
+        <span class="ver">v{{VERSION}}</span>
+      </div>
+      <h1>Kawaii Radio<br><span>cho'ntagingizda</span></h1>
+      <p>Jonli efir, o'z tanlovingiz, pleylistlar, chat va Kawaii ID. Hammasi bitta ilovada.</p>
+      <a class="key big" id="open" href="/app/latest.apk">
+        <span class="px" data-glyph="DOWNLOAD"></span>
+        <span class="big-text"><b id="openLabel">ILOVANI YUKLAB OLISH</b><small id="openSub">Android · {{SIZE}}</small></span>
+        <span class="arrow" aria-hidden="true">›</span>
+      </a>
+      <a class="alt" id="apk" href="/app/latest.apk">APK faylni to'g'ridan-to'g'ri yuklab olish</a>
+      <p class="note" id="note"></p>
+    </div>
+
+    <div class="tiles">
+      <div class="tile"><span class="px" data-glyph="RADIO"></span><b>3 ta efir</b><small>J-Pop, OST va Riot Music, kecha-kunduz</small></div>
+      <div class="tile"><span class="px" data-glyph="CHAT"></span><b>Chat</b><small>Tinglovchilar bilan jonli suhbat</small></div>
+      <div class="tile"><span class="px" data-glyph="STAR"></span><b>Kawaii ID</b><small>LEVEL, XP va hamma qurilmada bir xil statistika</small></div>
+      <div class="tile"><span class="px" data-glyph="HEART"></span><b>Sevimlilar</b><small>Pleylistlar va oflayn tinglash</small></div>
+    </div>
+  </section>
+</main>
+
+<footer>KAWAII RADIO · KR-01 · <a href="https://kawaii.uz">kawaii.uz</a></footer>
+
+<script src="/site/app.js" defer></script>
+</body>
+</html>

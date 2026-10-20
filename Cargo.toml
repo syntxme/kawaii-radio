@@ -1,0 +1,18 @@
+[package]
+name = "kawaii-radio-site"
+version = "0.1.0"
+edition = "2021"
+description = "radio.kawaii.uz: the Kawaii Radio page (everything else on the domain stays with the Cloudflare Worker)"
+publish = false
+
+[dependencies]
+axum = "0.8"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "time", "sync", "signal"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = true
